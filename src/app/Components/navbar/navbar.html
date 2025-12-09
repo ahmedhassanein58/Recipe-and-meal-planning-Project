@@ -16,7 +16,7 @@
         <ul id="nav-auth">
             @if(active())
             {
-                <button routerLink="/logout">Signout</button>
+                <button routerLink="/logout" (click)="logout($event)">Logout</button>
             }
             @else
             {

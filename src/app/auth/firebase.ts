@@ -4,7 +4,7 @@ import { initializeApp } from 'firebase/app';
 import { setDoc,doc, getFirestore} from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { getAuth,createUserWithEmailAndPassword, onAuthStateChanged,signInWithEmailAndPassword} from 'firebase/auth';
-import { Signout } from '../Components/signout/signout';
+// import { Signout } from '../Components/signout/signout';
 @Injectable({
   providedIn: 'root',
 })
@@ -48,15 +48,16 @@ export class Firebase {
     alert(`User not found. ${err.message} , ${err.code}`)
     throw err
   }
-  async logout()
+  async logout($event:Event)
   {
     try 
     {
+      $event.preventDefault();
       const logout = await signOut(this.auth)
     }
     catch(err:any)
     {
-      
+
     }
   }
 }
