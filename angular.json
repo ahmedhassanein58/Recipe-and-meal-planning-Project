@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "FoodRecipe": {
+    "lefestin": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -66,10 +66,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "FoodRecipe:build:production"
+              "buildTarget": "lefestin:build:production"
             },
             "development": {
-              "buildTarget": "FoodRecipe:build:development"
+              "buildTarget": "lefestin:build:development"
             }
           },
           "defaultConfiguration": "development"
