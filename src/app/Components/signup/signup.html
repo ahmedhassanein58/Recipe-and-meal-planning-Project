@@ -9,22 +9,61 @@
     <form (ngSubmit)="onSignUp()" class="signup-form">
 
       <label for="username">Username</label>
-      <input id="username" type="text" [(ngModel)]="userObject().username" name="username"
-        placeholder="Enter your username" required />
+      <input id="username" type="text" 
+      [(ngModel)]="userObject().username"
+      name="username"
+      placeholder="Enter your username"
+      minlength="8" 
+      required 
+      #name="ngModel"/>
+      @if(name.hasError('minlength'))
+      {
+        <div>Invalid user name.(at least 8 characters)</div>
+      }
 
       <label for="email">E-mail Account</label>
-      <input id="email" type="text" [(ngModel)]="userObject().email" name="email" placeholder="Enter your email"
-        required />
+      <input id="email"
+       type="text" 
+       [(ngModel)]="userObject().email" 
+       name="email" 
+       #email="ngModel"
+       placeholder="Enter your email"
+       pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+       required
+       (ngModelChange)="handleEmailChange(email)"/>
+       @if(!isEmailValid() && (email.dirty || email.touched))
+      {
+        <div>Invalid email</div>
+      }
 
       <label for="password">Password</label>
-      <input id="password" type="password" [(ngModel)]="userObject().password" name="password"
-        placeholder="Enter a strong password" required />
+      <input id="password" type="password" 
+      [(ngModel)]="userObject().password"
+      required
+      name="password"
+      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+      placeholder="Enter a strong password"
+      required
+      #pass="ngModel"
+      (ngModelChange)="handlePassChange(pass)"/>
+      @if(!isPassValid() && (pass.dirty || pass.touched))
+      {
+        <pre>
+          password must contain at:
+          least 1 Uppercase letter
+          1 Lowercase letter
+          special character
+          and 1 number.
+          (not less that 8 characters)
+        </pre>
+      }
 
       <label for="confirm-password">Confirm Password</label>
       <input id="confirm-password" type="password" [(ngModel)]="userObject().confirmPassword" name="confirm-password"
-        placeholder="Confirm your Password" required />
-
-      <button type="submit" class="btn">Sign Up</button>
+        placeholder="Confirm your Password" required #confirmPass="ngModel"/>
+      
+      <button type="submit" class="btn" [disabled]="!isPassValid() || 
+      !isEmailValid() || name.invalid || pass.value != confirmPass.value">Sign Up</button>
 
       <p class="redirect">
         Already have an account?
