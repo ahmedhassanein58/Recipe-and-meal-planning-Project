@@ -1,0 +1,27 @@
+<div id="nav">
+    <ul id="nav-list">
+        <li>Home</li>
+        @if(active())
+        {
+            <li>Recipies</li>
+            <li>Saved Recipes</li>
+            <li>Shopping List</li>
+            <li>Planned</li>
+            <li>Profile</li>
+        }
+      
+        
+        
+        
+        <ul id="nav-auth">
+            @if(active())
+            {
+                <button routerLink="/logout">Signout</button>
+            }
+            @else
+            {
+                <button routerLink="/login">Signin/Login</button>
+            }
+        </ul>
+    </ul>
+</div>

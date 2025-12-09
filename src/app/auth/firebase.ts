@@ -1,20 +1,35 @@
-import { Injectable,Inject } from '@angular/core';
+import { Injectable,Inject, signal } from '@angular/core';
 import { firebaseConfig } from '../../firebase.config';
 import { initializeApp } from 'firebase/app';
 import { setDoc,doc, getFirestore} from 'firebase/firestore';
-import { getAuth,createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth';
-import { email } from '@angular/forms/signals';
+import { signOut } from 'firebase/auth';
+import { getAuth,createUserWithEmailAndPassword, onAuthStateChanged,signInWithEmailAndPassword} from 'firebase/auth';
+import { Signout } from '../Components/signout/signout';
 @Injectable({
   providedIn: 'root',
 })
 export class Firebase {
   app = initializeApp(firebaseConfig);
   auth = getAuth(this.app);
-  async register(email:string,password:string)
+  db = getFirestore(this.app)
+  user = signal<any>(null)
+
+  
+  constructor()
+  {
+    onAuthStateChanged(this.auth,(user) => {
+      this.user.set(user)
+    })
+  }
+  async register(email:string,password:string, name: string)
   {
     try
     {
         const userCred = await createUserWithEmailAndPassword(this.auth,email,password);
+        setDoc(doc(this.db,'/users', userCred.user.uid), {
+          username: name,
+          email: email
+        })
         return userCred;
     }
     catch(error: any)
@@ -32,5 +47,16 @@ export class Firebase {
   {
     alert(`User not found. ${err.message} , ${err.code}`)
     throw err
+  }
+  async logout()
+  {
+    try 
+    {
+      const logout = await signOut(this.auth)
+    }
+    catch(err:any)
+    {
+      
+    }
   }
 }

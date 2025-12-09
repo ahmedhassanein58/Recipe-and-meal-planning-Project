@@ -1,7 +1,7 @@
 import { Component, model, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Navbar } from '../../navbar/navbar';
+import { Navbar } from '../navbar/navbar';
 import { Firebase } from '../../auth/firebase';
 
 @Component({

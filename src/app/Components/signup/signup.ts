@@ -1,9 +1,9 @@
-import { Component,model, Inject, viewChild, signal, inject } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule, NgModel } from '@angular/forms';
-import { Navbar } from '../../navbar/navbar';
+import { Navbar } from '../navbar/navbar';
 import { Firebase } from '../../auth/firebase';
-import { ViewChild,ElementRef,AfterViewInit } from '@angular/core';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-signup',
@@ -39,7 +39,7 @@ export class Signup  {
   async onSignUp() {
     try 
     {
-        const user = await this.authService.register(this.userObject().email,this.userObject().password);
+        const user = await this.authService.register(this.userObject().email,this.userObject().password,this.userObject().username);
         console.log("user created with id ", user.user.uid);
     }
     catch(err:any)
