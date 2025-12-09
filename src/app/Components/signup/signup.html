@@ -1,3 +1,5 @@
+<app-navbar></app-navbar>
+
 <div class="layout-container">
   <h1 class="welcome-title">Welcome to Le Festin</h1>
   <p class="quote">"Anyone can cook, but only the fearless can be great."</p>
@@ -7,19 +9,19 @@
     <form (ngSubmit)="onSignUp()" class="signup-form">
 
       <label for="username">Username</label>
-      <input id="username" type="text" [(ngModel)]="userObject.username" name="username"
+      <input id="username" type="text" [(ngModel)]="userObject().username" name="username"
         placeholder="Enter your username" required />
 
       <label for="email">E-mail Account</label>
-      <input id="email" type="text" [(ngModel)]="userObject.email" name="email" placeholder="Enter your email"
+      <input id="email" type="text" [(ngModel)]="userObject().email" name="email" placeholder="Enter your email"
         required />
 
       <label for="password">Password</label>
-      <input id="password" type="password" [(ngModel)]="userObject.password" name="password"
+      <input id="password" type="password" [(ngModel)]="userObject().password" name="password"
         placeholder="Enter a strong password" required />
 
       <label for="confirm-password">Confirm Password</label>
-      <input id="confirm-password" type="password" [(ngModel)]="userObject.confirmPassword" name="confirm-password"
+      <input id="confirm-password" type="password" [(ngModel)]="userObject().confirmPassword" name="confirm-password"
         placeholder="Confirm your Password" required />
 
       <button type="submit" class="btn">Sign Up</button>

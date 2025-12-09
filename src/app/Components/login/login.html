@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <div class="layout-container">
   <h1 class="welcome-title">Welcome to Le Festin</h1>
   <p class="quote">"Anyone can cook, but only the fearless can be great."</p>
@@ -7,11 +8,11 @@
     <form (ngSubmit)="onLogin()" class="signup-form">
 
       <label for="username">Username</label>
-      <input id="username" type="text" [(ngModel)]="userObject.username" name="username"
+      <input id="username" type="text" [(ngModel)]="userObject().username" name="username"
         placeholder="Enter your username" required />
 
       <label for="password">Password</label>
-      <input id="password" type="password" [(ngModel)]="userObject.password" name="password"
+      <input id="password" type="password" [(ngModel)]="userObject().password" name="password"
         placeholder="Enter a strong password" required />
 
       <button type="submit" class="btn">Login</button>
