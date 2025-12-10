@@ -53,11 +53,11 @@ export class Firebase {
     try 
     {
       $event.preventDefault();
-      const logout = await signOut(this.auth)
+      await signOut(this.auth)
     }
     catch(err:any)
     {
-
+      console.log(`${err.message}`)
     }
   }
 }

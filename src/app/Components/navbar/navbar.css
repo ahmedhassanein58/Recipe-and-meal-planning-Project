@@ -27,7 +27,15 @@
     letter-spacing: 1px;
     box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
 }
-/* li:hover::after {
+li::after {
+    display: block;
+    margin-top: 5px;
     content: '';
+    width: 0px;
+    height: 1px;
     background-color: white;
-} */
+    transition: 200ms;
+}
+li:hover::after {
+    width: 100%;
+}

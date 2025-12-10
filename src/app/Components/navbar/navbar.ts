@@ -3,6 +3,7 @@ import { RouterLink } from "@angular/router";
 import { Firebase } from '../../auth/firebase';
 import { Inject } from '@angular/core';
 import { signal } from '@angular/core';
+import firebase from 'firebase/compat/app';
 @Component({
   selector: 'app-navbar',
   imports: [RouterLink],
@@ -17,8 +18,18 @@ export class Navbar {
   constructor(public firebase: Firebase) 
   {
     this.active = this.firebase.user;
+    
   }
-  
-  // Use the signal directly
+  async onLogout($event:any)
+  {
+    try 
+    {
+        await this.firebase.logout($event)
+    }
+    catch (err:any)
+    {
+      alert("Signout failed " + (err.message))
+    }
+  }
   
 }
