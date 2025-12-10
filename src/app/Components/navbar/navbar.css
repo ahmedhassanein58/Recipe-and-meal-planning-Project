@@ -1,6 +1,9 @@
 #nav {
     display: flex;
     justify-content: space-around;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 #nav-list {
     margin-left: 180px;
@@ -27,13 +30,14 @@
     letter-spacing: 1px;
     box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
 }
+
 li::after {
     display: block;
     margin-top: 5px;
     content: '';
     width: 0px;
     height: 1px;
-    background-color: white;
+    background-color: #f59e0b;
     transition: 200ms;
 }
 li:hover::after {
