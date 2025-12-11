@@ -13,9 +13,28 @@
                     [area]="meal.country"
                     [img]="meal.image"
                     >
-                        <!-- <ul id="ingredients-list">
-                            <li *ngFor="let ingred of meal.ingredients">{{ingred}},</li>
-                        </ul> -->
+                        <button id="btn" (click)="planMeal()">Plan a meal</button>
+                        <dialog id="plan-dialog" #planDialog>
+                            <form>
+                                <div>
+                                    {{date() | json}}
+                                    <label>Choose a Day: </label>
+                                    <input type="date" [(ngModel)]="date">
+                                </div>
+                                <div id="plan-time">
+                                    <input type="radio" value="breakfast" [(ngModel)]="type" id="break" name="mealType">
+                                    <label for="break">Breakfast</label>
+                                    
+                                    <input type="radio" value="launch" [(ngModel)]="type" id="lunch" name="mealType">
+                                    <label for="lunch">Lunch</label>
+
+                                    <input type="radio" value="dinner" [(ngModel)]="type" id="dinner" name="mealType">
+                                    <label for="dinner">Dinner</label>
+                                </div>
+                            </form>
+                            <button (click)="complete()">Complete</button>
+                            <button (click)="closeDialog()">Close</button>
+                        </dialog>
                     </app-meal-card>
                 </div>
             </div>

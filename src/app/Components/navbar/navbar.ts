@@ -33,6 +33,10 @@ export class Navbar {
     this.router.navigate(['/home'])
     // routerLink="/home"
   }
+  goToPlan()
+  {
+    this.router.navigate(['/planned'])
+  }
   goToSaved()
   {
     // console.log('sdf')

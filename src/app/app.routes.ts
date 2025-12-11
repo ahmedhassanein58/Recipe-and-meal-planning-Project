@@ -5,11 +5,13 @@ import { Login } from './Components/login/login';
 import {Home} from './Components/home/home';
 import { Meal } from './Components/meal/meal';
 import { SavedMeals } from './Components/saved-meals/saved-meals';
+import { Planned } from './planned/planned';
 
 export const routes: Routes = [
   { path: 'signup', component: Signup },
   { path: 'login', component: Login },
   { path: 'home', component: Home },
+  { path: 'planned', component: Planned },
   { path: 'meal/:id', component: Meal },
   { path: 'savedMeals/:id', component: SavedMeals },
   { path: '', redirectTo: '/home', pathMatch: 'full' }

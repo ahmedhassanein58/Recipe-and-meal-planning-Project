@@ -7,16 +7,26 @@ import { signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MealCard } from '../meal-card/meal-card';
 import { Navbar } from '../navbar/navbar';
+import { ElementRef,ViewChild } from '@angular/core';
+import { FormsModule } from "@angular/forms";
+import { JsonPipe } from '@angular/common';
 @Component({
   selector: 'app-saved-meals',
   templateUrl: './saved-meals.html',
-  providers: [Firebase],
-  imports: [CommonModule,MealCard,Navbar],
+  providers: [Firebase,JsonPipe],
+  imports: [CommonModule, MealCard, Navbar, FormsModule],
   styleUrl: './saved-meals.css',
 })
 export class SavedMeals implements OnInit {
   savedMeals:any = signal([])
+  type:any=signal('')
+  date:any=signal({})
   constructor(private route: ActivatedRoute,private store: Firebase){}
+  @ViewChild('planDialog')dialog!: ElementRef<HTMLDialogElement>;
+  closeDialog()
+  {
+    this.dialog.nativeElement.close();
+  }
   async getMealsByUser()
   {
     const id:string|null = this.route.snapshot.paramMap.get('id');
@@ -30,6 +40,14 @@ export class SavedMeals implements OnInit {
       this.savedMeals.set([...this.savedMeals(),item.data()])
     })
     // console.log(this.savedMeals())
+  }
+  complete()
+  {
+
+  }
+  planMeal()
+  {
+    this.dialog.nativeElement.showModal();
   }
   async ngOnInit(): Promise<void> {
     await this.getMealsByUser()
