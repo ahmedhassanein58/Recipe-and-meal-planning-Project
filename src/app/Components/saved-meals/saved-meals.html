@@ -2,19 +2,19 @@
 <div id="home-container">
     <div id="home">
         <div id="home-meals">
-            <h2>Common Meals:</h2>
+            <h2>Saved Meals:</h2>
 
             <div id="home-meals-grid">
-                <div *ngFor="let meal of meals(); let i = index">
+                <div *ngFor="let meal of this.savedMeals(); let i = index">
                     <app-meal-card
-                    [mealID]="meal.idMeal"
-                    [name]="meal.strMeal"
-                    [category]="meal.strCategory"
-                    [area]="meal.strArea"
-                    [img]="meal.strMealThumb"
+                    [mealID]="meal.id"
+                    [name]="meal.name"
+                    [category]="meal.category"
+                    [area]="meal.country"
+                    [img]="meal.image"
                     >
-                        <!-- <ul id="ingredients">
-                            <li *ngFor="let ing of getIngredients(i)">{{i}}. {{ing}}</li>
+                        <!-- <ul id="ingredients-list">
+                            <li *ngFor="let ingred of meal.ingredients">{{ingred}},</li>
                         </ul> -->
                     </app-meal-card>
                 </div>
@@ -22,7 +22,7 @@
 
         </div>
     </div>
-    <h2>Meal Categories: </h2>
+    <!-- <h2>Meal Categories: </h2>
     <div id="categories">
         <div style="margin-top: 35px" *ngFor="let cat of categories()">
             <div>
@@ -31,5 +31,5 @@
                 <a>{{cat.strCategory}}</a>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

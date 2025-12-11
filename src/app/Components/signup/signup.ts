@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { Firebase } from '../../auth/firebase';
@@ -9,7 +9,7 @@ import { ViewChild } from '@angular/core';
   selector: 'app-signup',
   standalone: true,
   templateUrl: './signup.html',
-  imports: [FormsModule, Navbar],
+  imports: [FormsModule, Navbar,RouterLink],
   providers: [Firebase],
   styleUrl: './signup.css',
 })

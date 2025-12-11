@@ -1,14 +1,15 @@
-import { Component, model, signal } from '@angular/core';
+import { Component, model, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { Firebase } from '../../auth/firebase';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.html',
-  imports: [FormsModule,Navbar],
+  imports: [FormsModule,Navbar,RouterLink],
   styleUrl: './login.css',
 })
 export class Login {
@@ -23,7 +24,8 @@ export class Login {
   message = signal('Please Wait we are logging you in')
   showAlert = signal(false)
   isSubmission = signal(false)
-
+  @ViewChild('email')email!:NgModel; 
+  @ViewChild('pass')pass!:NgModel; 
   async onLogin() 
   {
     this.color.set('blue')
@@ -35,7 +37,8 @@ export class Login {
     {
       const userCred = await this.authService.login(this.userObject().email,this.userObject().password);
       const user = userCred.user
-      console.log(user)
+      this.router.navigate(['/home'])
+      // console.log(user)
     }
     catch(err:any)
     {

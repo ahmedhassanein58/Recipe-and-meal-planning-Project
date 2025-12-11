@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { Firebase } from '../../auth/firebase';
-import { Inject } from '@angular/core';
-import { signal } from '@angular/core';
-import firebase from 'firebase/compat/app';
+
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
   providers: [Firebase],
   standalone: true,
   templateUrl: './navbar.html',
@@ -15,21 +12,34 @@ import firebase from 'firebase/compat/app';
 
 export class Navbar {
   active;
-  constructor(public firebase: Firebase) 
+  constructor(public firebase: Firebase, private router:Router) 
   {
     this.active = this.firebase.user;
-    
   }
   async onLogout($event:any)
   {
     try 
     {
         await this.firebase.logout($event)
+        this.goToLogin()
     }
     catch (err:any)
     {
       alert("Signout failed " + (err.message))
     }
   }
-  
+  goToHome()
+  {
+    this.router.navigate(['/home'])
+    // routerLink="/home"
+  }
+  goToSaved()
+  {
+    // console.log('sdf')
+    this.router.navigate(['/savedMeals',this.active().uid])
+  }
+  goToLogin()
+  {
+    this.router.navigate(["/login"])
+  }
 }

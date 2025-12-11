@@ -39,18 +39,7 @@ export class Home implements OnInit {
     this.categories.set(res.categories);
     return this.categories();
   }
-  getIngredients(id:number)
-  {
-    for (let i = 1; i <= 20; i++)
-    {
-      const ing = this.meals()[id][`strIngredient${i}`]
-      if (ing && ing.trim() != "")
-      {
-        this.ingredients().push(ing)
-      }
-    }
-    return this.ingredients();
-  }
+  
   async ngOnInit(): Promise<void> {
     let data = await this.reqMeal();
     let categories = await this.getCategories();

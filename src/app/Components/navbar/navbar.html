@@ -1,10 +1,10 @@
 <div id="nav">
     <ul id="nav-list">
-        <li routerLink="/home">Home</li>
+        <li (click)="goToHome()">Home</li>
         @if(active())
         {
             <li>Recipies</li>
-            <li>Saved Recipes</li>
+            <li (click)="goToSaved()">Saved Recipes</li>
             <li>Shopping List</li>
             <li>Planned</li>
             <li>Profile</li>
@@ -20,7 +20,7 @@
             }
             @else
             {
-                <button routerLink="/login">Signin/Login</button>
+                <button (click)="goToLogin()">Signin/Login</button>
             }
         </ul>
     </ul>
