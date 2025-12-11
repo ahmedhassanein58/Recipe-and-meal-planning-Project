@@ -29,7 +29,7 @@ export class SavedMeals implements OnInit {
     snapshot.docs.map(item => {
       this.savedMeals.set([...this.savedMeals(),item.data()])
     })
-    console.log(this.savedMeals())
+    // console.log(this.savedMeals())
   }
   async ngOnInit(): Promise<void> {
     await this.getMealsByUser()

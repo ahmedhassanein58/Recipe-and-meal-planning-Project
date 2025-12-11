@@ -1,8 +1,8 @@
-import { Component, OnInit,signal } from '@angular/core';
+import { Component, OnInit,signal,input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Firebase } from '../../auth/firebase';
-import { setDoc,doc,serverTimestamp } from 'firebase/firestore';
+import { setDoc,doc,serverTimestamp, collection, getDoc } from 'firebase/firestore';
 import { Navbar } from "../navbar/navbar";
 
 @Component({
@@ -16,6 +16,7 @@ export class Meal implements OnInit {
   constructor(private route:ActivatedRoute, private firebase:Firebase){}
   id:any;
   meal:any;
+  isDisabled = signal(false)
 
   img = signal('')
   name = signal('')
@@ -49,6 +50,24 @@ export class Meal implements OnInit {
     }
     return this.ingredients();
   }
+  async getMeal(mealId:any)
+  {
+    const uuid = this.firebase.user()?.uid;
+    const db = this.firebase.db;
+    // console.log(`uuid value is ${uuid}`)
+    const refDoc = doc(db, "users", uuid, "savedRecipes", mealId);
+    // mealDoc.data()
+    const meal = await getDoc(refDoc)
+    if (meal.exists())
+    {
+      console.log(meal.data())
+    }
+    else
+    {
+      return;
+    }
+    return meal.data();
+  }
   async ngOnInit(): Promise<void> {
     const id = this.route.snapshot.paramMap.get('id');
     this.id = id;
@@ -60,6 +79,10 @@ export class Meal implements OnInit {
     // console.log(this.ingredients())
     this.img.set(this.meal.meals[0].strMealThumb);
     this.category.set(this.meal.meals[0].strCategory)
+    const meal = await this.getMeal(id);
+    // console.log(meal)
+    if (meal)
+      this.isDisabled.set(true);
   }
   async saveRecipe()
   {

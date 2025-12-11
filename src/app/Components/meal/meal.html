@@ -12,8 +12,7 @@
         <ul id="meal-list">
             <li *ngFor="let ingred of ingredients()">{{ingred}}</li>
         </ul>
-        <button id="btn" (click)="saveRecipe()">Save</button>
-
+        <button id="btn" (click)="saveRecipe()" [disabled]="isDisabled()">Save</button>
         <!-- list for ingridents-->
         <!-- <ng-content></ng-content> -->
         <!-- <button id="btn" (click)="goToProduct()">Save</button> -->
