@@ -13,6 +13,8 @@ export class MealCard {
   area = input('')
   img = input('')
   publisher = input('')
+  inputDes = input('Details')
+  
   // disabled = input()
   constructor(private router:Router){}
   goToProduct()

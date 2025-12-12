@@ -2,7 +2,7 @@ import { Component, OnInit,signal,input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Firebase } from '../../auth/firebase';
-import { setDoc,doc,serverTimestamp, collection, getDoc } from 'firebase/firestore';
+import { setDoc,doc,serverTimestamp, deleteDoc, getDoc } from 'firebase/firestore';
 import { Navbar } from "../navbar/navbar";
 
 @Component({
@@ -85,6 +85,21 @@ export class Meal implements OnInit {
     // console.log(meal)
     if (meal)
       this.isDisabled.set(true);
+  }
+  async removeRecipe()
+  {
+    const user = this.firebase.user();
+    const userUID = this.firebase.user()?.uid;
+    try 
+    {
+      const docRef = doc(this.firebase.db, 'users', userUID, 'savedRecipes', this.id);
+      await deleteDoc(docRef);
+      alert(`${this.name()} meal deleted`)
+    }
+    catch(error: any)
+    {
+      alert(`Error occure can't delete the meal.`)
+    }
   }
   async saveRecipe()
   {

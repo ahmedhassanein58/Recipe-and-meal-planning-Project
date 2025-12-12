@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit,signal, ViewChild } from '@angular/core';
-import { getDoc, setDoc, doc, collection } from 'firebase/firestore';
+import { getDoc, setDoc, doc } from 'firebase/firestore';
 import { Firebase } from '../../auth/firebase';
 import { Navbar } from "../navbar/navbar";
 import { serverTimestamp } from 'firebase/firestore';
-import { FormsModule, NgModel } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -19,6 +19,7 @@ export class Post implements OnInit {
   name = signal('')
   country = signal('')
   description = signal('')
+  rand = signal(0)
   img = signal('')
   category = signal('')
   ingredients:any = signal([])
@@ -53,21 +54,23 @@ export class Post implements OnInit {
   }
   async createRecipe()
   {
-    const mealId = collection(this.db,'users')
-    const recipe = doc(this.db,'users',this.store.user()?.uid,'posts',String(mealId));
+    // const mealId = collection(this.db,'users')
+    this.rand.set(Math.random()*10000);
+    const recipe = doc(this.db,'users',this.store.user()?.uid,'posts',String(this.rand()));
     const userName = await this.getUserName();
+    // console.log(userName)
     try 
     {
       await setDoc(recipe,
-      {
-        savedAt: serverTimestamp(),
-        name: this.name(), // meal name
-        country: this.country(),
-        description: this.description(),
-        image: this.img(),
-        category: this.category(),
-        ingredients: this.ingredients(),
-        publisher: userName // user name detected automaticaly for current user
+        {
+          savedAt: serverTimestamp(),
+          name: this.name(), // meal name
+          country: this.country(),
+          description: this.description(),
+          image: this.img(),
+          category: this.category(),
+          ingredients: this.ingredients(),
+          publisher: userName // user name detected automaticaly for current user
       })
       alert(`Meal saved`)
     }

@@ -6,16 +6,31 @@
 
             <div id="home-meals-grid">
                 <div *ngFor="let meal of meals(); let i = index">
-                    <app-meal-card
-                    [mealID]="meal.idMeal"
-                    [name]="meal.strMeal"
-                    [category]="meal.strCategory"
-                    [area]="meal.strArea"
-                    [img]="meal.strMealThumb"
-                    [publisher]="meal.publisher"
-                    >
-                        
-                    </app-meal-card>
+                    @if (meal.publisher == 'admin')
+                    {
+
+                        <app-meal-card
+                        [mealID]="meal.idMeal"
+                        [name]="meal.strMeal"
+                        [category]="meal.strCategory"
+                        [area]="meal.strArea"
+                        [img]="meal.strMealThumb"
+                        [publisher]="meal.publisher"
+                        >
+                            
+                        </app-meal-card>
+                    }
+                    @else
+                    {
+                        <app-meal-card
+                        [name]="meal.name"
+                        [category]="meal.category"
+                        [area]="meal.country"
+                        [img]="meal.image"
+                        [publisher]="meal.publisher"
+                        >
+                        </app-meal-card>
+                    }
                 </div>
             </div>
 

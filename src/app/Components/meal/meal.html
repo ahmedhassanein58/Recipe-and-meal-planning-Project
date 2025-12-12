@@ -13,6 +13,8 @@
             <li *ngFor="let ingred of ingredients()">{{ingred}}</li>
         </ul>
         <button id="btn" (click)="saveRecipe()" [disabled]="isDisabled()">Save</button>
+        <br>
+        <button id="btn" (click)="removeRecipe()">Remove</button>
         <!-- list for ingridents-->
         <!-- <ng-content></ng-content> -->
         <!-- <button id="btn" (click)="goToProduct()">Save</button> -->
