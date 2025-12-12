@@ -22,15 +22,25 @@ export class Home implements OnInit {
       letters[count] = String.fromCharCode(i);
       let data = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${letters[count]}`)
       let res:any = await data.json();
+      res.meals = res.meals.map((item:any) => {
+        return {...item,publisher: 'admin'}
+      })
+
       if (res.meals)
       {
         this.meals().push(...res.meals);
       }
       count++;
     }
-    const shuffled = [...this.meals()].sort(() => Math.random() - 0.5);
+    let shuffled = [...this.meals()].sort(() => Math.random() - 0.5);
     this.meals.set(shuffled.slice(0, 18));
     return this.meals();
+  }
+  async getUsersRecipes()
+  {
+    // get recipes of the users you follow and then to added it to shuffled
+    // array to be displayed on the home page
+    
   }
   async getCategories()
   {

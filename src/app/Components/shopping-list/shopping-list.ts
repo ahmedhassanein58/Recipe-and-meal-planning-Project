@@ -9,7 +9,7 @@ import { Navbar } from "../navbar/navbar";
   templateUrl: './shopping-list.html',
   styleUrl: './shopping-list.css',
 })
-export class ShoppingList implements OnInit{
+export class ShoppingList implements OnInit {
   constructor(private store:Firebase){}
   mealIngredients = signal(new Map<string,string[]>()); // key value for name and ingred
   mealNames:any = signal([]) // split the meal ingredients

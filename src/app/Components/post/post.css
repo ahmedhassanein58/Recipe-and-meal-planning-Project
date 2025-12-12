@@ -1,0 +1,10 @@
+#post-home {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+#post-home > form {
+    margin: auto;
+    margin-top: 150px;
+
+}

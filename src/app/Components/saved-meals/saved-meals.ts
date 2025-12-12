@@ -86,6 +86,7 @@ export class SavedMeals implements OnInit {
   });
   if (isFound)
     return;
+  console.log(year)
   await setDoc(plannedDoc,{
     savedAt: serverTimestamp(),
     id: mealId,

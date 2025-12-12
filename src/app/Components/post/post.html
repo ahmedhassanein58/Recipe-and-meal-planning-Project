@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+
+<div id="post-home">
+    <form>
+        <div>
+            <label for="meal-name">Meal Name: &nbsp;</label>
+            <input [(ngModel)]="name" 
+            id="meal-name"
+            name="meal"
+            type="text" 
+            placeholder="Enter meal name"/>
+        </div>
+        <br>
+        <div>
+            <label for="meal-country">Meal country: &nbsp;</label>
+            <input [(ngModel)]="country" 
+            id="meal-country"
+            name="meal"
+            type="text" 
+            placeholder="Enter meal country"/>
+        </div>
+        <br>
+        <div>
+            <label for="desc">Meal description: &nbsp;</label>
+            <textarea id="desc" name='description' [(ngModel)]="description"></textarea>
+        </div>
+        <div>
+            <!-- {{img()}} -->
+            <label for="meal-image">Meal image url: &nbsp;</label>
+            <input id='meal-image' [(ngModel)]="img" name='meal-image' type="text" placeholder="enter image url">
+        </div>
+        <div>
+            <!-- {{category()}} -->
+            <label for="meal-category" for="meal-cat">Meal category: &nbsp;</label>
+            <select name="meal-category" [(ngModel)]="category" id="meal-cat">
+                <option *ngFor="let cat of categories()" [value]="cat.strCategory">{{cat.strCategory}}</option>
+            </select>
+        </div>
+        <div>
+            <!-- {{category()}} -->
+            <input type="button" value="Add ingred" (click)="addIngred()">
+            <input type="text" 
+            placeholder="Enter your ingredient name"
+            #ingredInput>
+            <h3>ingredients</h3>
+            <ol>
+                <li *ngFor="let ingred of ingredients()">{{ingred}}</li>
+            </ol>
+        </div>
+        <button (click)="saveMeal()">Save</button>
+    </form>
+</div>

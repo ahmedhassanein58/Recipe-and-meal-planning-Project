@@ -24,6 +24,7 @@ export class Meal implements OnInit {
   description = signal('')
   ingredients:any = signal([])
   category:any = signal('')
+  author = signal('')
 
   async getMealInfo(id:number)
   {
@@ -79,6 +80,7 @@ export class Meal implements OnInit {
     // console.log(this.ingredients())
     this.img.set(this.meal.meals[0].strMealThumb);
     this.category.set(this.meal.meals[0].strCategory)
+    this.author.set('admin')
     const meal = await this.getMeal(id);
     // console.log(meal)
     if (meal)
@@ -97,12 +99,14 @@ export class Meal implements OnInit {
         description: this.description(),
         image: this.img(),
         category: this.category(),
-        ingredients: this.ingredients()
+        ingredients: this.ingredients(),
+        publisher: this.author()
       })
       alert(`Meal saved`)
     }
     catch(error: any)
     {
+      // console.log(error.message)
       alert(`can't store ${this.name()} meal`)
     }
   }

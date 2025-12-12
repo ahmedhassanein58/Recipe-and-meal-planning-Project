@@ -7,6 +7,7 @@ import { Meal } from './Components/meal/meal';
 import { SavedMeals } from './Components/saved-meals/saved-meals';
 import { Planned } from './Components/planned/planned';
 import { ShoppingList } from './Components/shopping-list/shopping-list';
+import { Post } from './Components/post/post';
 
 export const routes: Routes = [
   { path: 'signup', component: Signup },
@@ -14,6 +15,7 @@ export const routes: Routes = [
   { path: 'home', component: Home },
   { path: 'planned', component: Planned },
   { path: 'shopping', component: ShoppingList },
+  { path: 'post', component: Post },
   { path: 'meal/:id', component: Meal },
   { path: 'savedMeals/:id', component: SavedMeals },
   { path: '', redirectTo: '/home', pathMatch: 'full' }

@@ -41,6 +41,10 @@ export class Navbar {
   {
     this.router.navigate(['/shopping'])
   }
+  makeAPost()
+  {
+    this.router.navigate(['/post'])
+  }
   goToSaved()
   {
     // console.log('sdf')
