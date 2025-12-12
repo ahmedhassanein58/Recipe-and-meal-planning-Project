@@ -1,0 +1,23 @@
+#home-meals > h2 
+{
+    margin-top: 70px;
+    margin-left: 20px;
+}
+#home-meals-grid
+{
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#ingredients
+{
+    list-style: none;
+    display: flex;
+}
+
+#categories
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+}

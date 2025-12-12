@@ -5,7 +5,7 @@
         {
             <li>Recipies</li>
             <li (click)="goToSaved()">Saved Recipes</li>
-            <li>Shopping List</li>
+            <li (click)="goToList()">Shopping List</li>
             <li (click)="goToPlan()">Planned</li>
             <li>Profile</li>
         }
@@ -16,6 +16,7 @@
         <ul id="nav-auth">
             @if(active())
             {
+                <button>Make a post</button>
                 <button  (click)="onLogout($event)">Logout</button>
             }
             @else

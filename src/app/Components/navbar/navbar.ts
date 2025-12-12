@@ -37,6 +37,10 @@ export class Navbar {
   {
     this.router.navigate(['/planned'])
   }
+  goToList()
+  {
+    this.router.navigate(['/shopping'])
+  }
   goToSaved()
   {
     // console.log('sdf')

@@ -1,0 +1,19 @@
+<app-navbar></app-navbar>
+<div id="home-container">
+    <div id="home">
+        <div id="home-meals">
+            <h2>Shopping List:</h2>
+
+            <div id="home-meals-grid">
+                <div *ngFor="let mealName of this.mealNames(); let i = index">
+                    <h2>{{mealName}}</h2>
+                    <h3>Shopping list for this meal: </h3>
+                    <ul>
+                        <li *ngFor="let mealIngreds of this.mealIngreds()[i]">{{mealIngreds}}</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
