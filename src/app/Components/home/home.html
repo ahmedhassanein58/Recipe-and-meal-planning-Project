@@ -38,13 +38,19 @@
 
         </div>
     </div>
-    <h2>Meal Categories: </h2>
-    <div id="categories">
-        <div style="margin-top: 35px" *ngFor="let cat of categories()">
-            <div>
-                <img [src]="cat.strCategoryThumb"/>
-                <br>
-                <a>{{cat.strCategory}}</a>
+    <div id="categories-section">
+        <h2>Explore Meal Categories</h2>
+        <p class="categories-subtitle">Discover delicious recipes by category</p>
+        <div id="categories">
+            <div class="category-card" *ngFor="let cat of categories()" (click)="navigateToCategory(cat.strCategory)">
+                <div class="category-image-wrapper">
+                    <img [src]="cat.strCategoryThumb" [alt]="cat.strCategory" class="category-image"/>
+                    <div class="category-overlay"></div>
+                </div>
+                <div class="category-info">
+                    <h3 class="category-name">{{cat.strCategory}}</h3>
+                    <p class="category-description">{{cat.strCategoryDescription}}</p>
+                </div>
             </div>
         </div>
     </div>

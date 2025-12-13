@@ -5,6 +5,7 @@ import { MealCard } from "../meal-card/meal-card";
 import { LoadingSpinner } from '../loading-spinner/loading-spinner';
 import { collection, getDocs } from 'firebase/firestore';
 import { Firebase } from '../../auth/firebase';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ export class Home implements OnInit {
   categories: any = signal([])
   allPosts: any = signal([])
   loading = signal(true)
-  constructor(private store:Firebase){};
+  constructor(private store:Firebase, private router: Router){};
   async reqMeal()
   {
     const letters = [];
@@ -89,5 +90,9 @@ export class Home implements OnInit {
     } finally {
       this.loading.set(false);
     }
+  }
+
+  navigateToCategory(categoryName: string): void {
+    this.router.navigate(['/recipes'], { queryParams: { category: categoryName } });
   }
 }

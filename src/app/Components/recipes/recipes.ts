@@ -6,7 +6,7 @@ import { MealCard } from '../meal-card/meal-card';
 import { LoadingSpinner } from '../loading-spinner/loading-spinner';
 import { ToastService } from '../../Services/toast.service';
 import { Firebase } from '../../auth/firebase';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { collection, getDocs } from 'firebase/firestore';
 
 @Component({
@@ -32,14 +32,30 @@ export class Recipes implements OnInit {
   ingredients = signal<string[]>([]);
   loading = signal(false);
 
-  constructor(private firebase: Firebase, private router: Router, private toast: ToastService) {}
+  constructor(
+    private firebase: Firebase, 
+    private router: Router, 
+    private toast: ToastService,
+    private route: ActivatedRoute
+  ) {}
 
   async ngOnInit(): Promise<void> {
+    // Check for category query parameter
+    const categoryParam = this.route.snapshot.queryParams['category'];
+    if (categoryParam) {
+      this.selectedCategory.set(categoryParam);
+    }
+
     await this.loadAllRecipes();
     await this.loadCategories();
     await this.loadUserPosts();
     this.extractCuisines();
     this.extractIngredients();
+    
+    // Apply filters after loading data if category was set
+    if (this.selectedCategory()) {
+      this.applyFilters();
+    }
   }
 
   async loadAllRecipes() {
