@@ -36,3 +36,275 @@
   cursor: not-allowed;      /* show disabled cursor */
   opacity: 0.6;             /* optional transparency */
 }
+
+/* Comments Section */
+#comments-section {
+    margin-top: 40px;
+    padding: 20px;
+    border-top: 2px solid #e0e0e0;
+}
+
+#comments-section h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.comments-info {
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.login-prompt {
+    padding: 15px;
+    background-color: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-prompt p {
+    margin: 0;
+    color: #856404;
+}
+
+.login-prompt a {
+    color: #f59e0b;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+#add-comment {
+    margin-bottom: 30px;
+}
+
+#add-comment textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+#add-comment textarea:focus {
+    outline: none;
+    border-color: #f59e0b;
+}
+
+#comments-list {
+    margin-top: 20px;
+}
+
+.comment {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #f59e0b;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment-header strong {
+    color: #333;
+    font-size: 1em;
+}
+
+.comment-date {
+    color: #666;
+    font-size: 0.85em;
+}
+
+.comment-text {
+    color: #555;
+    line-height: 1.5;
+}
+
+.no-comments {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Ratings and Reviews Section */
+#ratings-section {
+    margin-top: 40px;
+    padding: 20px;
+    border-top: 2px solid #e0e0e0;
+}
+
+#ratings-section h3 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.rating-summary {
+    background: #fff7ed;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.average-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.rating-value {
+    font-size: 3em;
+    font-weight: bold;
+    color: #f59e0b;
+}
+
+.rating-stars {
+    font-size: 1.5em;
+}
+
+.rating-count {
+    color: #666;
+    font-size: 0.9em;
+}
+
+#rate-recipe {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+}
+
+#rate-recipe label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+.star-rating {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.star {
+    font-size: 2em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+.star:hover {
+    transform: scale(1.2);
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+.star.active {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+.rating-hint {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+#add-review {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 12px;
+}
+
+#add-review label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+#add-review textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    margin-bottom: 12px;
+}
+
+#add-review textarea:focus {
+    outline: none;
+    border-color: #f59e0b;
+}
+
+#reviews-list {
+    margin-top: 24px;
+}
+
+#reviews-list h4 {
+    font-size: 1.2em;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.review {
+    background: #f9f9f9;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border-left: 4px solid #f59e0b;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-header strong {
+    color: #333;
+    font-size: 1em;
+}
+
+.review-rating {
+    margin-left: 8px;
+    font-size: 0.9em;
+}
+
+.review-date {
+    color: #666;
+    font-size: 0.85em;
+}
+
+.review-text {
+    color: #555;
+    line-height: 1.6;
+}
+
+.no-reviews {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 20px;
+}

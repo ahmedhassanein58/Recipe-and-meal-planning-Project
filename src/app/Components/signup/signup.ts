@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { Firebase } from '../../auth/firebase';
+import { ToastService } from '../../Services/toast.service';
 import { ViewChild } from '@angular/core';
 
 @Component({
@@ -14,7 +15,7 @@ import { ViewChild } from '@angular/core';
   styleUrl: './signup.css',
 })
 export class Signup  {
-  constructor(private router: Router, private authService: Firebase){};
+  constructor(private router: Router, private authService: Firebase, private toast: ToastService){};
 
   userObject = signal({
     username: "",
@@ -44,7 +45,7 @@ export class Signup  {
     }
     catch(err:any)
     {
-      alert("Registeration failed " + err.message);
+      this.toast.error("Registration failed: " + err.message);
     }
     
     // authService.register()

@@ -7,6 +7,8 @@ import { signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MealCard } from '../meal-card/meal-card';
 import { Navbar } from '../navbar/navbar';
+import { LoadingSpinner } from '../loading-spinner/loading-spinner';
+import { ToastService } from '../../Services/toast.service';
 import { ElementRef,ViewChild } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import { HarmCategory } from 'firebase/ai';
@@ -16,7 +18,7 @@ import { Meal } from '../meal/meal';
   selector: 'app-saved-meals',
   templateUrl: './saved-meals.html',
   providers: [Firebase],
-  imports: [CommonModule, MealCard, Navbar, FormsModule],
+  imports: [CommonModule, MealCard, Navbar, FormsModule, LoadingSpinner],
   styleUrl: './saved-meals.css',
 })
 export class SavedMeals implements OnInit {
@@ -24,8 +26,9 @@ export class SavedMeals implements OnInit {
   type:any=signal('')
   date:Date |null = null;
   currentMeal:any;
+  loading = signal(true)
   // time:Date;
-  constructor(private route: ActivatedRoute,private store: Firebase){}
+  constructor(private route: ActivatedRoute,private store: Firebase, private toast: ToastService){}
   @ViewChild('planDialog')dialog!: ElementRef<HTMLDialogElement>;
   closeDialog()
   {
@@ -76,7 +79,7 @@ export class SavedMeals implements OnInit {
     if (data['year'] == year && data['month'] == month 
       && data['dayInMonth'] == date && this.type() == data['mealType'])
     {
-      alert("There is a planned meal for this slot")
+      this.toast.warning("There is already a planned meal for this time slot")
       isFound = true;
     }
     // Example: check a field
@@ -102,7 +105,7 @@ export class SavedMeals implements OnInit {
     dayInMonth: date
       //get year month and day of the meal
   })
-  alert("saved to planned meals")
+  this.toast.success("Meal saved to planned meals")
   }
   planMeal(meal:any)
   {
@@ -110,6 +113,11 @@ export class SavedMeals implements OnInit {
     this.dialog.nativeElement.showModal();
   }
   async ngOnInit(): Promise<void> {
-    await this.getMealsByUser()
+    this.loading.set(true);
+    try {
+      await this.getMealsByUser()
+    } finally {
+      this.loading.set(false);
+    }
   }
 }

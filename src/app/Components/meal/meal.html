@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
-<div id="meal-container">
+<app-loading-spinner *ngIf="loading()"></app-loading-spinner>
+<div id="meal-container" *ngIf="!loading()">
     <div id="meal">
         <img [src]="img()" alt="">
         <h2 id="meal-card-name">{{name()}}</h2>
@@ -12,11 +13,98 @@
         <ul id="meal-list">
             <li *ngFor="let ingred of ingredients()">{{ingred}}</li>
         </ul>
+        <button id="btn" (click)="followUser(this.id)" *ngIf="!isOwnRecipe()">Follow</button>
         <button id="btn" (click)="saveRecipe()" [disabled]="isDisabled()">Save</button>
         <br>
         <button id="btn" (click)="removeRecipe()">Remove</button>
-        <!-- list for ingridents-->
-        <!-- <ng-content></ng-content> -->
-        <!-- <button id="btn" (click)="goToProduct()">Save</button> -->
+    </div>
+
+    <!-- Ratings and Reviews Section -->
+    <div id="ratings-section">
+        <h3>⭐ Ratings & Reviews</h3>
+        
+        <div class="rating-summary">
+            <div class="average-rating">
+                <span class="rating-value">{{averageRating().toFixed(1)}}</span>
+                <span class="rating-stars">{{getStarRating(averageRating())}}</span>
+                <span class="rating-count">({{ratings().length}} ratings)</span>
+            </div>
+        </div>
+
+        <!-- Rate Recipe -->
+        <div id="rate-recipe" *ngIf="firebase.user() && !isOwnRecipe()">
+            <label>Your Rating:</label>
+            <div class="star-rating">
+                <span 
+                    *ngFor="let star of [1,2,3,4,5]" 
+                    class="star" 
+                    [class.active]="star <= userRating()"
+                    (click)="submitRating(star)"
+                    [title]="star + ' stars'"
+                >
+                    ⭐
+                </span>
+            </div>
+            <p class="rating-hint" *ngIf="userRating() === 0">Click a star to rate this recipe</p>
+            <p class="rating-hint" *ngIf="userRating() > 0">You rated this {{userRating()}} star{{userRating() > 1 ? 's' : ''}}. Click to change.</p>
+        </div>
+
+        <!-- Submit Review -->
+        <div id="add-review" *ngIf="firebase.user() && !isOwnRecipe() && userRating() > 0">
+            <label>Write a Review:</label>
+            <textarea 
+                [(ngModel)]="reviewText" 
+                placeholder="Share your experience with this recipe..."
+                rows="4"
+            ></textarea>
+            <button id="btn" (click)="submitReview()">Submit Review</button>
+        </div>
+
+        <!-- Reviews List -->
+        <div id="reviews-list">
+            <h4>Reviews ({{reviews().length}})</h4>
+            <div *ngFor="let review of reviews()" class="review">
+                <div class="review-header">
+                    <div>
+                        <strong>{{review.username}}</strong>
+                        <span class="review-rating">{{getStarRating(review.rating)}}</span>
+                    </div>
+                    <span class="review-date">{{review.createdAt | date:'short'}}</span>
+                </div>
+                <div class="review-text">{{review.text}}</div>
+            </div>
+            <p *ngIf="reviews().length === 0" class="no-reviews">No reviews yet. Be the first to review!</p>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div id="comments-section">
+        <h3>Comments ({{comments().length}})</h3>
+        <p class="comments-info">All comments are visible to everyone viewing this recipe.</p>
+        
+        <!-- Add Comment Form -->
+        <div id="add-comment" *ngIf="firebase.user()">
+            <textarea 
+                [(ngModel)]="newComment" 
+                placeholder="Write a comment... (visible to all users)"
+                rows="3"
+            ></textarea>
+            <button id="btn" (click)="addComment()">Post Comment</button>
+        </div>
+        <div *ngIf="!firebase.user()" class="login-prompt">
+            <p>Please login to post a comment.</p>
+        </div>
+
+        <!-- Comments List -->
+        <div id="comments-list">
+            <div *ngFor="let comment of comments()" class="comment">
+                <div class="comment-header">
+                    <strong>{{comment.username}}</strong>
+                    <span class="comment-date">{{comment.createdAt | date:'short'}}</span>
+                </div>
+                <div class="comment-text">{{comment.text}}</div>
+            </div>
+            <p *ngIf="comments().length === 0" class="no-comments">No comments yet. Be the first to comment!</p>
+        </div>
     </div>
 </div>

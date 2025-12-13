@@ -1,13 +1,19 @@
 #home-meals > h2 
 {
-    margin-top: 70px;
+    margin-top: 20px;
     margin-left: 20px;
 }
 #home-meals-grid
 {
     display: grid;
-    grid-gap: 8px;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    padding: 20px;
+}
+
+#home-meals-grid > div {
+    display: flex;
+    width: 100%;
 }
 #ingredients
 {

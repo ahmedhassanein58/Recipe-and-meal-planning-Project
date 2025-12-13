@@ -40,13 +40,15 @@ export class Firebase {
   }
   async login(email:string,password:string)
   {
-    const userCred = await signInWithEmailAndPassword(this.auth,email,password)
-    return userCred
-  }
-  catch(err:any)
-  {
-    alert(`User not found. ${err.message} , ${err.code}`)
-    throw err
+    try {
+      const userCred = await signInWithEmailAndPassword(this.auth,email,password)
+      return userCred
+    }
+    catch(err:any)
+    {
+      console.log(`User not found. ${err.message} , ${err.code}`)
+      throw err
+    }
   }
   async logout($event:Event)
   {

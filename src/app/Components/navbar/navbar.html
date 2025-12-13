@@ -1,28 +1,25 @@
 <div id="nav">
     <ul id="nav-list">
+        <li class="nav-brand" (click)="goToHome()">🍽️ Le Festin</li>
         <li (click)="goToHome()">Home</li>
         @if(active())
         {
-            <li>Recipies</li>
-            <li (click)="goToSaved()">Saved Recipes</li>
-            <li (click)="goToList()">Shopping List</li>
+            <li (click)="goToRecipes()">Recipes</li>
+            <li (click)="goToSaved()">Saved</li>
+            <li (click)="goToList()">Shopping</li>
             <li (click)="goToPlan()">Planned</li>
-            <li>Profile</li>
+            <li (click)="goToProfile()">Profile</li>
         }
-      
-        
-        
-        
-        <ul id="nav-auth">
-            @if(active())
-            {
-                <button (click)="makeAPost()">Make a post</button>
-                <button  (click)="onLogout($event)">Logout</button>
-            }
-            @else
-            {
-                <button (click)="goToLogin()">Signin/Login</button>
-            }
-        </ul>
+    </ul>
+    <ul id="nav-auth">
+        @if(active())
+        {
+            <button (click)="makeAPost()">➕ Create Recipe</button>
+            <button (click)="onLogout($event)">Logout</button>
+        }
+        @else
+        {
+            <button (click)="goToLogin()">Sign In</button>
+        }
     </ul>
 </div>

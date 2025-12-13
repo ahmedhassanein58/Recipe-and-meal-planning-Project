@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+<div id="profile-container">
+    <app-loading-spinner *ngIf="loading()"></app-loading-spinner>
+    <div id="profile" *ngIf="!loading()">
+        <div id="profile-header">
+            <h1>{{username()}}</h1>
+            <p>{{email()}}</p>
+            <div id="profile-stats">
+                <div class="stat">
+                    <span class="stat-number">{{userPosts().length}}</span>
+                    <span class="stat-label">Posts</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">{{followersCount()}}</span>
+                    <span class="stat-label">Followers</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">{{followingCount()}}</span>
+                    <span class="stat-label">Following</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="profile-posts">
+            <h2>My Recipes</h2>
+            <div id="posts-grid" *ngIf="userPosts().length > 0; else noPosts">
+                <div *ngFor="let post of userPosts()">
+                    <app-meal-card
+                        [mealID]="post.id"
+                        [name]="post.name"
+                        [category]="post.category"
+                        [area]="post.country"
+                        [img]="post.image"
+                        [publisher]="post.publisher"
+                    >
+                    </app-meal-card>
+                </div>
+            </div>
+            <ng-template #noPosts>
+                <p>No recipes posted yet.</p>
+            </ng-template>
+        </div>
+    </div>
+</div>
+

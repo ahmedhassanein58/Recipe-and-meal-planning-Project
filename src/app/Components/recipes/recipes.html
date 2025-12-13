@@ -1,1 +1,87 @@
-<p>recipes works!</p>
+<app-navbar></app-navbar>
+<div id="recipes-container">
+    <div id="recipes-header">
+        <h1>🔍 Recipe Search</h1>
+        <p>Find your perfect recipe with advanced search and filters</p>
+    </div>
+
+    <!-- Search and Filters Section -->
+    <div id="filters-section">
+        <div class="search-bar">
+            <input 
+                type="text" 
+                [(ngModel)]="searchQuery" 
+                (input)="onSearch()"
+                placeholder="Search recipes by name or description..."
+                class="search-input"
+            >
+            <button class="clear-btn" (click)="clearFilters()" *ngIf="searchQuery() || selectedCuisine() || selectedCategory() || selectedIngredient() || cookingTimeFilter()">
+                Clear All
+            </button>
+        </div>
+
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label>🌍 Cuisine</label>
+                <select [(ngModel)]="selectedCuisine" (change)="onFilterChange()" class="filter-select">
+                    <option value="">All Cuisines</option>
+                    <option *ngFor="let cuisine of cuisines()" [value]="cuisine">{{cuisine}}</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>📂 Category</label>
+                <select [(ngModel)]="selectedCategory" (change)="onFilterChange()" class="filter-select">
+                    <option value="">All Categories</option>
+                    <option *ngFor="let cat of categories()" [value]="cat.strCategory">{{cat.strCategory}}</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>🥘 Ingredient</label>
+                <select [(ngModel)]="selectedIngredient" (change)="onFilterChange()" class="filter-select">
+                    <option value="">All Ingredients</option>
+                    <option *ngFor="let ing of ingredients()" [value]="ing">{{ing}}</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>⏱️ Cooking Time</label>
+                <select [(ngModel)]="cookingTimeFilter" (change)="onFilterChange()" class="filter-select">
+                    <option value="">Any Time</option>
+                    <option value="quick">Quick (&lt; 30 min)</option>
+                    <option value="medium">Medium (30-60 min)</option>
+                    <option value="long">Long (&gt; 60 min)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-section">
+        <div class="results-header">
+            <h2>Results ({{filteredRecipes().length}})</h2>
+            <p *ngIf="filteredRecipes().length === 0 && !loading()" class="no-results">
+                No recipes found. Try adjusting your filters.
+            </p>
+        </div>
+
+        <div *ngIf="loading()" class="loading">
+            <p>Loading recipes...</p>
+        </div>
+
+        <div *ngIf="!loading() && filteredRecipes().length > 0" id="recipes-grid">
+            <div *ngFor="let recipe of filteredRecipes()">
+                <app-meal-card
+                    [mealID]="getRecipeId(recipe)"
+                    [name]="getRecipeName(recipe)"
+                    [category]="getRecipeCategory(recipe)"
+                    [area]="getRecipeArea(recipe)"
+                    [img]="getRecipeImage(recipe)"
+                    [publisher]="recipe.publisher || 'admin'"
+                >
+                </app-meal-card>
+            </div>
+        </div>
+    </div>
+</div>
