@@ -1,20 +1,31 @@
-#meal-card 
+#home-meals > h2 
 {
-    width: 400px;
-    height: 400px;
-    background-color: #0d1323;
-    text-align: center;
-    border-radius: 15px;
+    margin-top: 70px;
+    margin-left: 20px;
 }
-#meal-card > img
+#home-meals-grid
 {
-    width: 150px;
-    height: 150px;
-    padding: 10px 15px;
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: 1fr 1fr 1fr;
 }
-#country {
-    font-size: 16px;
-    color: rgb(175, 175, 175)
+
+#categories
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+}
+
+#ingredients-list
+{
+    list-style: none;
+    display: flex;
+    width: 80%;
+}
+#ingredients-list > li
+{
+    margin: 0px 5px;
 }
 #btn
 {
@@ -32,4 +43,8 @@
     letter-spacing: 1px;
     box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
     float: right;
+}
+#plan-time > label:hover
+{
+    cursor: pointer;
 }

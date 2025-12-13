@@ -1,10 +1,11 @@
 <div id="meal-card">
-    <img src="{{img()}}" alt="">
+    <p>Author: {{publisher()}}</p>
+    <img [src]="img()" alt="">
     <h2 id="meal-card-name">{{name()}}</h2> <!-- meal name-->
     <p id="country">Country: {{area()}}</p>
     <p id="meal-card-cat">Category: {{category()}}</p> <!-- for category -->
 
     <!-- list for ingridents-->
+    <button id="btn" (click)="goToProduct()">{{inputDes()}}</button>
     <ng-content></ng-content>
-    <button id="btn">Details</button>
 </div>

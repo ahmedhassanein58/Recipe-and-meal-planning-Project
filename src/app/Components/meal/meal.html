@@ -1,0 +1,22 @@
+<app-navbar></app-navbar>
+<div id="meal-container">
+    <div id="meal">
+        <img [src]="img()" alt="">
+        <h2 id="meal-card-name">{{name()}}</h2>
+        <p id="country">Country: {{country()}}</p>
+        <p id="meal-card-cat">Category: {{category()}}</p> 
+        <div id="meal-card-description">
+            {{description()}}
+        </div>
+        <h3>Ingredients:</h3>
+        <ul id="meal-list">
+            <li *ngFor="let ingred of ingredients()">{{ingred}}</li>
+        </ul>
+        <button id="btn" (click)="saveRecipe()" [disabled]="isDisabled()">Save</button>
+        <br>
+        <button id="btn" (click)="removeRecipe()">Remove</button>
+        <!-- list for ingridents-->
+        <!-- <ng-content></ng-content> -->
+        <!-- <button id="btn" (click)="goToProduct()">Save</button> -->
+    </div>
+</div>

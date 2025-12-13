@@ -13,7 +13,7 @@
     <form (ngSubmit)="onLogin()" class="signup-form" #form="ngForm">
       <label for="email">Email</label>
       <input id="email" type="text" [(ngModel)]="userObject().email" name="email"
-        placeholder="Enter your email" required />
+        placeholder="Enter your email" required #email="ngModel"/>
 
       <label for="password">Password</label>
       <input id="password"
@@ -21,7 +21,7 @@
        [(ngModel)]="userObject().password" 
        name="password"
       placeholder="Enter your password" 
-      required />
+      required #pass="ngModel"/>
 
       <button type="submit" class="btn" (click)="onLogin()" [disabled]="isSubmission() || !form.valid">Login</button>
 

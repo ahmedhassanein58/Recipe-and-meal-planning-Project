@@ -1,0 +1,35 @@
+<!-- <app-meal-card>
+
+</app-meal-card> -->
+<app-navbar></app-navbar>
+<div id="home-container">
+    <div id="home">
+        <div id="home-meals">
+            <h2>Planned Meals:</h2>
+
+            <div id="home-meals-grid">
+                <div *ngFor="let meal of this.plannedMeals(); let i = index">
+                    <app-meal-card
+                    [mealID]="meal.id"
+                    [name]="meal.name"
+                    [category]="meal.category"
+                    [area]="meal.country"
+                    [img]="meal.image"
+                    >        
+                    </app-meal-card>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- <h2>Meal Categories: </h2>
+    <div id="categories">
+        <div style="margin-top: 35px" *ngFor="let cat of categories()">
+            <div>
+                <img [src]="cat.strCategoryThumb"/>
+                <br>
+                <a>{{cat.strCategory}}</a>
+            </div>
+        </div>
+    </div> -->
+</div>

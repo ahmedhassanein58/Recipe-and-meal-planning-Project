@@ -1,7 +1,7 @@
 import { Injectable,Inject, signal } from '@angular/core';
 import { firebaseConfig } from '../../firebase.config';
 import { initializeApp } from 'firebase/app';
-import { setDoc,doc, getFirestore} from 'firebase/firestore';
+import { setDoc,doc, getFirestore, Firestore} from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { getAuth,createUserWithEmailAndPassword, onAuthStateChanged,signInWithEmailAndPassword} from 'firebase/auth';
 // import { Signout } from '../Components/signout/signout';
@@ -11,7 +11,7 @@ import { getAuth,createUserWithEmailAndPassword, onAuthStateChanged,signInWithEm
 export class Firebase {
   app = initializeApp(firebaseConfig);
   auth = getAuth(this.app);
-  db = getFirestore(this.app)
+  db:Firestore = getFirestore(this.app)
   user = signal<any>(null)
 
   
