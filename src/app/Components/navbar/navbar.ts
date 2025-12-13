@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from "@angular/router";
 import { Firebase } from '../../auth/firebase';
+import { ToastService } from '../../Services/toast.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,7 @@ import { Firebase } from '../../auth/firebase';
 
 export class Navbar {
   active;
-  constructor(public firebase: Firebase, private router:Router) 
+  constructor(public firebase: Firebase, private router:Router, private toast: ToastService) 
   {
     this.active = this.firebase.user;
   }
@@ -25,7 +26,7 @@ export class Navbar {
     }
     catch (err:any)
     {
-      alert("Signout failed " + (err.message))
+      this.toast.error("Signout failed: " + (err.message))
     }
   }
   goToHome()
@@ -49,6 +50,19 @@ export class Navbar {
   {
     // console.log('sdf')
     this.router.navigate(['/savedMeals',this.active().uid])
+  }
+  goToProfile()
+  {
+    const userId = this.active()?.uid;
+    if (userId) {
+      this.router.navigate(['/profile', userId]);
+    } else {
+      this.router.navigate(['/profile']);
+    }
+  }
+  goToRecipes()
+  {
+    this.router.navigate(['/recipes'])
   }
   goToLogin()
   {

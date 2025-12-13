@@ -1,0 +1,47 @@
+<app-navbar></app-navbar>
+<div id="shopping-container">
+    <app-loading-spinner *ngIf="loading()"></app-loading-spinner>
+    <div *ngIf="!loading()">
+    <div id="shopping-header">
+        <h1>🛒 Shopping List</h1>
+        <div class="shopping-stats">
+            <span class="stat-item">
+                <strong>{{getCheckedCount()}}</strong> of <strong>{{getTotalCount()}}</strong> items picked
+            </span>
+            <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="getTotalCount() > 0 ? (getCheckedCount() / getTotalCount() * 100) : 0"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="shopping-content">
+        <div *ngIf="shoppingItems().length === 0" class="empty-state">
+            <p>📝 No items in your shopping list yet.</p>
+            <p>Plan some meals to see ingredients here!</p>
+        </div>
+
+        <div *ngIf="shoppingItems().length > 0" class="shopping-list">
+            <div *ngFor="let item of shoppingItems()" class="shopping-item" [class.checked]="item.checked">
+                <div class="item-content">
+                    <label class="checkbox-container">
+                        <input 
+                            type="checkbox" 
+                            [checked]="item.checked"
+                            (change)="toggleItem(item)"
+                            class="item-checkbox"
+                        >
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="item-info">
+                        <h3 class="item-name" [class.strikethrough]="item.checked">{{item.name}}</h3>
+                        <p class="item-meal">For: {{item.mealName}}</p>
+                    </div>
+                </div>
+                <button class="remove-btn" (click)="removeItem(item)" title="Remove from list">
+                    🗑️
+                </button>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

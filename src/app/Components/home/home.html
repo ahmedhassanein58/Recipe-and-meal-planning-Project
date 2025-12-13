@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
 <div id="home-container">
-    <div id="home">
+    <app-loading-spinner *ngIf="loading()"></app-loading-spinner>
+    <div id="home" *ngIf="!loading()">
         <div id="home-meals">
             <h2>Common Meals:</h2>
 
@@ -23,6 +24,7 @@
                     @else
                     {
                         <app-meal-card
+                        [mealID]="meal.id"
                         [name]="meal.name"
                         [category]="meal.category"
                         [area]="meal.country"

@@ -4,6 +4,7 @@
 body {
     margin: 0;
     padding: 0;
+    padding-top: 70px; /* Space for fixed navbar */
     min-height: 100vh;
     background: #161f36;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

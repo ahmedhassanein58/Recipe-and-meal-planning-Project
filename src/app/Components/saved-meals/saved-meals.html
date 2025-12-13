@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
 <div id="home-container">
-    <div id="home">
+    <app-loading-spinner *ngIf="loading()"></app-loading-spinner>
+    <div id="home" *ngIf="!loading()">
         <div id="home-meals">
             <h2>Saved Meals:</h2>
 
@@ -16,25 +17,54 @@
                     >
                         <button id="btn" (click)="planMeal(meal)">Plan a meal</button>
                         <dialog id="plan-dialog" #planDialog>
-                            <form>
-                                <div>
-                                    <!-- {{date()}} -->
-                                    <label for="planDate">Choose a Day: </label>
-                                    <input type="date" name="planDate" (change)="date = $event.target.valueAsDate">
-                                </div>
-                                <div id="plan-time">
-                                    <input type="radio" value="breakfast" [(ngModel)]="type" id="break" name="mealType">
-                                    <label for="break">Breakfast</label>
-                                    
-                                    <input type="radio" value="launch" [(ngModel)]="type" id="lunch" name="mealType">
-                                    <label for="lunch">Lunch</label>
-
-                                    <input type="radio" value="dinner" [(ngModel)]="type" id="dinner" name="mealType">
-                                    <label for="dinner">Dinner</label>
-                                </div>
-                            </form>
-                            <button (click)="complete(currentMeal.id)">Complete</button>
-                            <button (click)="closeDialog()">Close</button>
+                            <div class="dialog-header">
+                                <h2>Plan Your Meal</h2>
+                                <button class="close-btn" (click)="closeDialog()">&times;</button>
+                            </div>
+                            <div class="dialog-content">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="planDate">
+                                            <span class="label-icon">📅</span>
+                                            Choose a Date:
+                                        </label>
+                                        <input type="date" name="planDate" id="planDate" (change)="date = $event.target.valueAsDate" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            <span class="label-icon">🍽️</span>
+                                            Meal Type:
+                                        </label>
+                                        <div id="plan-time">
+                                            <div class="radio-option">
+                                                <input type="radio" value="breakfast" [(ngModel)]="type" id="break" name="mealType">
+                                                <label for="break" class="radio-label">
+                                                    <span class="meal-icon">🌅</span>
+                                                    Breakfast
+                                                </label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" value="launch" [(ngModel)]="type" id="lunch" name="mealType">
+                                                <label for="lunch" class="radio-label">
+                                                    <span class="meal-icon">☀️</span>
+                                                    Lunch
+                                                </label>
+                                            </div>
+                                            <div class="radio-option">
+                                                <input type="radio" value="dinner" [(ngModel)]="type" id="dinner" name="mealType">
+                                                <label for="dinner" class="radio-label">
+                                                    <span class="meal-icon">🌙</span>
+                                                    Dinner
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="dialog-footer">
+                                <button class="btn-secondary" (click)="closeDialog()">Cancel</button>
+                                <button class="btn-primary" (click)="complete(currentMeal.id)">Add to Plan</button>
+                            </div>
                         </dialog>
                     </app-meal-card>
                 </div>

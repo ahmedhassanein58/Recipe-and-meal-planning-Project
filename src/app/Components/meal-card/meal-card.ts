@@ -1,8 +1,10 @@
 import { Component, input } from '@angular/core';
 import { Router } from "@angular/router";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-meal-card',
+  imports: [CommonModule],
   templateUrl: './meal-card.html',
   styleUrl: './meal-card.css',
 })
@@ -19,6 +21,10 @@ export class MealCard {
   constructor(private router:Router){}
   goToProduct()
   {
-    this.router.navigate(['/meal',Number(this.mealID())])
+    // Use the mealID as-is (could be string for user posts or number for TheMealDB)
+    const id = this.mealID();
+    if (id) {
+      this.router.navigate(['/meal', id]);
+    }
   }
 }

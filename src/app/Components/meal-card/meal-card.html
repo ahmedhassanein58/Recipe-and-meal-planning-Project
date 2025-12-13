@@ -1,11 +1,27 @@
 <div id="meal-card">
-    <p>Author: {{publisher()}}</p>
-    <img [src]="img()" alt="">
-    <h2 id="meal-card-name">{{name()}}</h2> <!-- meal name-->
-    <p id="country">Country: {{area()}}</p>
-    <p id="meal-card-cat">Category: {{category()}}</p> <!-- for category -->
-
-    <!-- list for ingridents-->
-    <button id="btn" (click)="goToProduct()">{{inputDes()}}</button>
-    <ng-content></ng-content>
+    <div class="card-image-container">
+        <img [src]="img()" alt="{{name()}}" class="card-image">
+        <div class="card-badge" *ngIf="publisher()">{{publisher()}}</div>
+    </div>
+    
+    <div class="card-content">
+        <h2 class="card-name">{{name()}}</h2>
+        <div class="card-meta">
+            <span class="meta-item" *ngIf="area()">
+                <span class="meta-icon">🌍</span>
+                {{area()}}
+            </span>
+            <span class="meta-item" *ngIf="category()">
+                <span class="meta-icon">📂</span>
+                {{category()}}
+            </span>
+        </div>
+        
+        <div class="card-actions">
+            <button class="card-btn primary" (click)="goToProduct()">{{inputDes()}}</button>
+            <div class="card-extra-actions">
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
 </div>

@@ -2,12 +2,13 @@ import { Component, OnInit, signal} from '@angular/core';
 import { Navbar } from "../navbar/navbar";
 import { CommonModule } from '@angular/common';
 import { MealCard } from "../meal-card/meal-card";
+import { LoadingSpinner } from '../loading-spinner/loading-spinner';
 import { collection, getDocs } from 'firebase/firestore';
 import { Firebase } from '../../auth/firebase';
 
 @Component({
   selector: 'app-home',
-  imports: [Navbar, CommonModule, MealCard],
+  imports: [Navbar, CommonModule, MealCard, LoadingSpinner],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -16,6 +17,7 @@ export class Home implements OnInit {
   ingredients:any = signal([])
   categories: any = signal([])
   allPosts: any = signal([])
+  loading = signal(true)
   constructor(private store:Firebase){};
   async reqMeal()
   {
@@ -57,6 +59,7 @@ export class Home implements OnInit {
         posts.docs.forEach(post => {
           this.allPosts().push({
             ...post.data(),
+            id: post.id, // Include the post ID
             userId: userDoc.id
           });
         });
@@ -77,9 +80,14 @@ export class Home implements OnInit {
   }
   
   async ngOnInit(): Promise<void> {
-    await this.getUsersRecipes();
-    let data = await this.reqMeal();
-    let categories = await this.getCategories();
-    // console.log(data)
+    this.loading.set(true);
+    try {
+      await this.getUsersRecipes();
+      let data = await this.reqMeal();
+      let categories = await this.getCategories();
+      // console.log(data)
+    } finally {
+      this.loading.set(false);
+    }
   }
 }

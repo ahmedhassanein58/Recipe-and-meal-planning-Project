@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit,signal, ViewChild } from '@angular/core';
 import { getDoc, setDoc, doc } from 'firebase/firestore';
-import { Firebase } from '../../auth/firebase';
-import { Navbar } from "../navbar/navbar";
+import { Firebase } from '../auth/firebase';
+import { Navbar } from "../Components/navbar/navbar";
+import { ToastService } from '../Services/toast.service';
 import { serverTimestamp } from 'firebase/firestore';
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
@@ -14,7 +15,7 @@ import { CommonModule } from '@angular/common';
   imports: [Navbar,CommonModule,FormsModule]
 })
 export class Post implements OnInit {
-  constructor(private store:Firebase){}
+  constructor(private store:Firebase, private toast: ToastService){}
   db:any;
   name = signal('')
   country = signal('')
@@ -72,13 +73,13 @@ export class Post implements OnInit {
           ingredients: this.ingredients(),
           publisher: userName // user name detected automaticaly for current user
       })
-      alert(`Meal saved`)
+      this.toast.success(`Recipe posted successfully!`)
     }
     
     catch(error: any)
     {
       console.log(error.message)
-      alert(`can't store ${this.name()} meal`)
+      this.toast.error(`Can't store ${this.name()} recipe`)
     }
    
   }
