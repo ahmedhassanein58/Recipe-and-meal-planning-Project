@@ -1,25 +1,55 @@
 <div id="nav">
-    <ul id="nav-list">
-        <li class="nav-brand" (click)="goToHome()">🍽️ Le Festin</li>
-        <li (click)="goToHome()">Home</li>
+    <div class="nav-brand" (click)="goToHome()">🍽️ Le Festin</div>
+    <button class="hamburger" (click)="toggleMenu()" [class.active]="menuOpen()" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <ul id="nav-list" [class.menu-open]="menuOpen()">
+        <li (click)="goToHome(); closeMenu()">Home</li>
         @if(active())
         {
-            <li (click)="goToRecipes()">Recipes</li>
-            <li (click)="goToSaved()">Saved</li>
-            <li (click)="goToList()">Shopping</li>
-            <li (click)="goToPlan()">Planned</li>
-            <li (click)="goToProfile()">Profile</li>
+            <li (click)="goToRecipes(); closeMenu()">Recipes</li>
+            <li (click)="goToSaved(); closeMenu()">Saved</li>
+            <li (click)="goToList(); closeMenu()">Shopping</li>
+            <li (click)="goToPlan(); closeMenu()">Planned</li>
+            <li (click)="goToProfile(); closeMenu()">Profile</li>
         }
     </ul>
-    <ul id="nav-auth">
+    <ul id="nav-auth" [class.menu-open]="menuOpen()">
         @if(active())
         {
-            <button (click)="makeAPost()">➕ Create Recipe</button>
-            <button (click)="onLogout($event)">Logout</button>
+            <button (click)="makeAPost(); closeMenu()">➕ Create Recipe</button>
+            <button (click)="onLogout($event); closeMenu()">Logout</button>
         }
         @else
         {
-            <button (click)="goToLogin()">Sign In</button>
+            <button (click)="goToLogin(); closeMenu()">Sign In</button>
         }
     </ul>
+    <!-- Mobile menu wrapper - only visible on mobile -->
+    <div class="mobile-menu-container" [class.menu-open]="menuOpen()">
+        <ul class="mobile-nav-list">
+            <li (click)="goToHome(); closeMenu()">Home</li>
+            @if(active())
+            {
+                <li (click)="goToRecipes(); closeMenu()">Recipes</li>
+                <li (click)="goToSaved(); closeMenu()">Saved</li>
+                <li (click)="goToList(); closeMenu()">Shopping</li>
+                <li (click)="goToPlan(); closeMenu()">Planned</li>
+                <li (click)="goToProfile(); closeMenu()">Profile</li>
+            }
+        </ul>
+        <ul class="mobile-nav-auth">
+            @if(active())
+            {
+                <button (click)="makeAPost(); closeMenu()">➕ Create Recipe</button>
+                <button (click)="onLogout($event); closeMenu()">Logout</button>
+            }
+            @else
+            {
+                <button (click)="goToLogin(); closeMenu()">Sign In</button>
+            }
+        </ul>
+    </div>
 </div>

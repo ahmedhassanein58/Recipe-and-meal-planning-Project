@@ -1,10 +1,14 @@
-#home-meals > h2 
-{
+#home-container {
+    padding-top: 0;
+}
+
+#home-meals > h2 {
     margin-top: 20px;
     margin-left: 20px;
+    font-size: 1.8rem;
 }
-#home-meals-grid
-{
+
+#home-meals-grid {
     display: grid;
     grid-gap: 24px;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -15,8 +19,8 @@
     display: flex;
     width: 100%;
 }
-#ingredients
-{
+
+#ingredients {
     list-style: none;
     display: flex;
 }
@@ -132,17 +136,102 @@
     flex-grow: 1;
 }
 
+
 @media (max-width: 768px) {
+    #home-meals > h2 {
+        margin-top: 15px;
+        margin-left: 15px;
+        font-size: 1.5rem;
+    }
+    
+    #home-meals-grid {
+        grid-template-columns: 1fr;
+        grid-gap: 16px;
+        padding: 15px;
+    }
+    
     #categories {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-template-columns: 1fr;
         grid-gap: 20px;
+        padding: 15px;
+    }
+    
+    #categories-section {
+        margin-top: 40px;
+        padding: 30px 15px;
     }
     
     #categories-section > h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+    
+    .categories-subtitle {
+        font-size: 1rem;
+        margin-bottom: 30px;
     }
     
     .category-image-wrapper {
         height: 150px;
+    }
+    
+    .category-info {
+        padding: 15px;
+    }
+    
+    .category-name {
+        font-size: 1.2rem;
+    }
+    
+    .category-description {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #home-meals > h2 {
+        margin-top: 10px;
+        margin-left: 10px;
+        font-size: 1.3rem;
+    }
+    
+    #home-meals-grid {
+        grid-gap: 12px;
+        padding: 10px;
+    }
+    
+    #categories-section {
+        margin-top: 30px;
+        padding: 20px 10px;
+    }
+    
+    #categories-section > h2 {
+        font-size: 1.5rem;
+    }
+    
+    .categories-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    
+    #categories {
+        grid-gap: 15px;
+        padding: 10px;
+    }
+    
+    .category-image-wrapper {
+        height: 120px;
+    }
+    
+    .category-info {
+        padding: 12px;
+    }
+    
+    .category-name {
+        font-size: 1.1rem;
+    }
+    
+    .category-description {
+        font-size: 0.8rem;
     }
 }

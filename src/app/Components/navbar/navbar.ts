@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router } from "@angular/router";
 import { Firebase } from '../../auth/firebase';
 import { ToastService } from '../../Services/toast.service';
@@ -13,9 +13,16 @@ import { ToastService } from '../../Services/toast.service';
 
 export class Navbar {
   active;
+  menuOpen = signal(false);
   constructor(public firebase: Firebase, private router:Router, private toast: ToastService) 
   {
     this.active = this.firebase.user;
+  }
+  toggleMenu() {
+    this.menuOpen.set(!this.menuOpen());
+  }
+  closeMenu() {
+    this.menuOpen.set(false);
   }
   async onLogout($event:any)
   {
