@@ -18,7 +18,9 @@
                         [img]="meal.strMealThumb"
                         [publisher]="meal.publisher"
                         >
-                            
+                            <button class="plan-btn" (click)="planMeal(meal)" [disabled]="!store.user()" title="Plan this meal">
+                                📅 Plan
+                            </button>
                         </app-meal-card>
                     }
                     @else
@@ -31,6 +33,9 @@
                         [img]="meal.image"
                         [publisher]="meal.publisher"
                         >
+                            <button class="plan-btn" (click)="planMeal(meal)" [disabled]="!store.user()" title="Plan this meal">
+                                📅 Plan
+                            </button>
                         </app-meal-card>
                     }
                 </div>
@@ -38,6 +43,59 @@
 
         </div>
     </div>
+    
+    <!-- Plan Meal Dialog -->
+    <dialog id="plan-dialog" #planDialog>
+        <div class="dialog-header">
+            <h2>Plan Your Meal</h2>
+            <button class="close-btn" (click)="closeDialog()">&times;</button>
+        </div>
+        <div class="dialog-content">
+            <form>
+                <div class="form-group">
+                    <label for="planDate">
+                        <span class="label-icon">📅</span>
+                        Choose a Date:
+                    </label>
+                    <input type="date" name="planDate" id="planDate" (change)="date = $event.target.valueAsDate" required>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <span class="label-icon">🍽️</span>
+                        Meal Type:
+                    </label>
+                    <div id="plan-time">
+                        <div class="radio-option">
+                            <input type="radio" value="breakfast" [(ngModel)]="type" id="break" name="mealType">
+                            <label for="break" class="radio-label">
+                                <span class="meal-icon">🌅</span>
+                                Breakfast
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" value="launch" [(ngModel)]="type" id="lunch" name="mealType">
+                            <label for="lunch" class="radio-label">
+                                <span class="meal-icon">☀️</span>
+                                Lunch
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" value="dinner" [(ngModel)]="type" id="dinner" name="mealType">
+                            <label for="dinner" class="radio-label">
+                                <span class="meal-icon">🌙</span>
+                                Dinner
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="dialog-footer">
+            <button class="btn-secondary" (click)="closeDialog()">Cancel</button>
+            <button class="btn-primary" (click)="complete()">Add to Plan</button>
+        </div>
+    </dialog>
+    
     <div id="categories-section">
         <h2>Explore Meal Categories</h2>
         <p class="categories-subtitle">Discover delicious recipes by category</p>

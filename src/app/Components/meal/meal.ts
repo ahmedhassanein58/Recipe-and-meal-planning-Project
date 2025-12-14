@@ -280,6 +280,30 @@ export class Meal implements OnInit {
     }
   }
 
+  canDeleteComment(comment: any): boolean {
+    const currentUserId = this.firebase.user()?.uid;
+    if (!currentUserId) return false;
+    return comment.userId === currentUserId;
+  }
+
+  async deleteComment(commentId: string) {
+    const currentUserId = this.firebase.user()?.uid;
+    if (!currentUserId) {
+      this.toast.warning('You must be logged in to delete comments');
+      return;
+    }
+
+    try {
+      const commentDocRef = doc(this.firebase.db, 'meals', String(this.id), 'comments', commentId);
+      await deleteDoc(commentDocRef);
+      await this.loadComments(); // Reload comments
+      this.toast.success('Comment deleted successfully!');
+    } catch (err: any) {
+      console.error('Error deleting comment:', err);
+      this.toast.error('Error deleting comment: ' + err.message);
+    }
+  }
+
   async loadRatings() {
     try {
       const ratingsColl = collection(this.firebase.db, 'meals', String(this.id), 'ratings');
@@ -565,6 +589,11 @@ export class Meal implements OnInit {
   async saveRecipe()
   {
     const user = this.firebase.user();
+    if (!user) {
+      this.toast.warning('You must be logged in to save recipes');
+      return;
+    }
+    
     try 
     {
       await setDoc(doc(this.firebase.db,'users',user.uid,'savedRecipes',String(this.id)),{
@@ -578,12 +607,13 @@ export class Meal implements OnInit {
         ingredients: this.ingredients(),
         publisher: this.author()
       })
-      this.toast.success(`Meal saved successfully!`)
+      this.isDisabled.set(true); // Disable button after saving
+      this.toast.success(`Meal "${this.name()}" saved successfully!`)
     }
     catch(error: any)
     {
-      // console.log(error.message)
-      this.toast.error(`Can't store ${this.name()} meal`)
+      console.log(error.message)
+      this.toast.error(`Can't store ${this.name()} meal: ${error.message}`)
     }
   }
 

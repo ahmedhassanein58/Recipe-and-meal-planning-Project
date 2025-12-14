@@ -37,11 +37,16 @@ export class Signup  {
   {
     this.isEmailValid.set(!email.hasError('pattern') && !email.hasError('required'))
   }
+  goToHome()
+  {
+    this.router.navigate(['/home'])
+  }
   async onSignUp() {
     try 
     {
         const user = await this.authService.register(this.userObject().email,this.userObject().password,this.userObject().username);
         console.log("user created with id ", user.user.uid);
+        this.goToHome();
     }
     catch(err:any)
     {

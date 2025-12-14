@@ -1,51 +1,165 @@
 <app-navbar></app-navbar>
 <div id="post-home">
-    <form>
-        <div>
-            <label for="meal-name">Meal Name: &nbsp;</label>
-            <input [(ngModel)]="name" 
-            id="meal-name"
-            name="meal"
-            type="text" 
-            placeholder="Enter meal name"/>
+    <div class="post-header">
+        <h1>🍽️ Create Your Recipe</h1>
+        <p>Share your culinary masterpiece with the community</p>
+    </div>
+    
+    <form class="recipe-form" #recipeForm="ngForm">
+        <div class="form-section">
+            <h2>Basic Information</h2>
+            
+            <div class="form-group">
+                <label for="meal-name">
+                    <span class="label-icon">📝</span>
+                    Meal Name <span class="required">*</span>
+                </label>
+                <input 
+                    [(ngModel)]="name" 
+                    id="meal-name"
+                    name="mealName"
+                    type="text" 
+                    placeholder="e.g., Chicken Tikka Masala"
+                    required
+                    #mealNameInput="ngModel"
+                    [class.error]="mealNameInput.invalid && mealNameInput.touched"
+                />
+                <span class="error-message" *ngIf="mealNameInput.invalid && mealNameInput.touched">
+                    Meal name is required
+                </span>
+            </div>
+            
+            <div class="form-group">
+                <label for="meal-country">
+                    <span class="label-icon">🌍</span>
+                    Country/Cuisine <span class="required">*</span>
+                </label>
+                <input 
+                    [(ngModel)]="country" 
+                    id="meal-country"
+                    name="mealCountry"
+                    type="text" 
+                    placeholder="e.g., Indian, Italian, Mexican"
+                    required
+                    #countryInput="ngModel"
+                    [class.error]="countryInput.invalid && countryInput.touched"
+                />
+                <span class="error-message" *ngIf="countryInput.invalid && countryInput.touched">
+                    Country is required
+                </span>
+            </div>
+            
+            <div class="form-group">
+                <label for="meal-category">
+                    <span class="label-icon">📂</span>
+                    Category <span class="required">*</span>
+                </label>
+                <select 
+                    name="mealCategory" 
+                    [(ngModel)]="category" 
+                    id="meal-category"
+                    required
+                    #categoryInput="ngModel"
+                    [class.error]="categoryInput.invalid && categoryInput.touched"
+                >
+                    <option value="">Select a category</option>
+                    <option *ngFor="let cat of categories()" [value]="cat.strCategory">{{cat.strCategory}}</option>
+                </select>
+                <span class="error-message" *ngIf="categoryInput.invalid && categoryInput.touched">
+                    Category is required
+                </span>
+            </div>
         </div>
-        <br>
-        <div>
-            <label for="meal-country">Meal country: &nbsp;</label>
-            <input [(ngModel)]="country" 
-            id="meal-country"
-            name="meal"
-            type="text" 
-            placeholder="Enter meal country"/>
+        
+        <div class="form-section">
+            <h2>Recipe Details</h2>
+            
+            <div class="form-group">
+                <label for="desc">
+                    <span class="label-icon">📄</span>
+                    Description/Instructions <span class="required">*</span>
+                </label>
+                <textarea 
+                    id="desc" 
+                    name="description" 
+                    [(ngModel)]="description"
+                    placeholder="Write detailed cooking instructions..."
+                    rows="6"
+                    required
+                    #descInput="ngModel"
+                    [class.error]="descInput.invalid && descInput.touched"
+                ></textarea>
+                <span class="error-message" *ngIf="descInput.invalid && descInput.touched">
+                    Description is required
+                </span>
+            </div>
+            
+            <div class="form-group">
+                <label for="meal-image">
+                    <span class="label-icon">🖼️</span>
+                    Image URL <span class="required">*</span>
+                </label>
+                <input 
+                    id="meal-image" 
+                    [(ngModel)]="img" 
+                    name="mealImage" 
+                    type="url" 
+                    placeholder="https://example.com/image.jpg"
+                    required
+                    #imgInput="ngModel"
+                    [class.error]="imgInput.invalid && imgInput.touched"
+                />
+                <span class="error-message" *ngIf="imgInput.invalid && imgInput.touched">
+                    Valid image URL is required
+                </span>
+                <small class="hint">Enter a valid URL to an image of your dish</small>
+            </div>
         </div>
-        <br>
-        <div>
-            <label for="desc">Meal description: &nbsp;</label>
-            <textarea id="desc" name='description' [(ngModel)]="description"></textarea>
+        
+        <div class="form-section">
+            <h2>Ingredients</h2>
+            
+            <div class="ingredients-input-group">
+                <div class="ingredient-input-wrapper">
+                    <input 
+                        type="text" 
+                        placeholder="Enter ingredient name (e.g., 2 cups flour)"
+                        #ingredInput
+                        class="ingredient-input"
+                        (keyup.enter)="addIngred()"
+                    />
+                    <button type="button" class="add-ingredient-btn" (click)="addIngred()">
+                        <span>➕</span> Add
+                    </button>
+                </div>
+                <small class="hint">Press Enter or click Add to include ingredients</small>
+            </div>
+            
+            <div class="ingredients-list" *ngIf="ingredients().length > 0">
+                <h3>Added Ingredients ({{ingredients().length}})</h3>
+                <div class="ingredients-grid">
+                    <div class="ingredient-item" *ngFor="let ingred of ingredients(); let i = index">
+                        <span class="ingredient-number">{{i + 1}}</span>
+                        <span class="ingredient-name">{{ingred}}</span>
+                        <button type="button" class="remove-ingredient" (click)="removeIngred(i)" title="Remove ingredient">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+                <span class="error-message" *ngIf="ingredients().length === 0 && recipeForm.submitted">
+                    At least one ingredient is required
+                </span>
+            </div>
+            <div class="no-ingredients" *ngIf="ingredients().length === 0">
+                <p>No ingredients added yet. Add at least one ingredient to continue.</p>
+            </div>
         </div>
-        <div>
-            <!-- {{img()}} -->
-            <label for="meal-image">Meal image url: &nbsp;</label>
-            <input id='meal-image' [(ngModel)]="img" name='meal-image' type="text" placeholder="enter image url">
+        
+        <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="resetForm()">Reset</button>
+            <button type="button" class="btn-primary" (click)="saveMeal()" [disabled]="recipeForm.invalid">
+                <span>✨</span> Create Recipe
+            </button>
         </div>
-        <div>
-            <!-- {{category()}} -->
-            <label for="meal-category" for="meal-cat">Meal category: &nbsp;</label>
-            <select name="meal-category" [(ngModel)]="category" id="meal-cat">
-                <option *ngFor="let cat of categories()" [value]="cat.strCategory">{{cat.strCategory}}</option>
-            </select>
-        </div>
-        <div>
-            <!-- {{category()}} -->
-            <input type="button" value="Add ingred" (click)="addIngred()">
-            <input type="text" 
-            placeholder="Enter your ingredient name"
-            #ingredInput>
-            <h3>ingredients</h3>
-            <ol>
-                <li *ngFor="let ingred of ingredients()">{{ingred}}</li>
-            </ol>
-        </div>
-        <button (click)="saveMeal()">Save</button>
     </form>
 </div>

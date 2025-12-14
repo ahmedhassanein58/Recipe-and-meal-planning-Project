@@ -1,17 +1,16 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Navbar } from '../navbar/navbar';
 import { MealCard } from '../meal-card/meal-card';
-import { LoadingSpinner } from '../loading-spinner/loading-spinner';
 import { ToastService } from '../../Services/toast.service';
 import { Firebase } from '../../auth/firebase';
 import { Router, ActivatedRoute } from '@angular/router';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-recipes',
-  imports: [CommonModule, FormsModule, Navbar, MealCard, LoadingSpinner],
+  imports: [CommonModule, FormsModule, Navbar, MealCard],
   providers: [Firebase],
   templateUrl: './recipes.html',
   styleUrl: './recipes.css',
@@ -31,9 +30,13 @@ export class Recipes implements OnInit {
   categories = signal<any[]>([]);
   ingredients = signal<string[]>([]);
   loading = signal(false);
+  type = signal('')
+  date: Date | null = null;
+  currentMeal: any;
+  @ViewChild('planDialog') dialog!: ElementRef<HTMLDialogElement>;
 
   constructor(
-    private firebase: Firebase, 
+    public firebase: Firebase, 
     private router: Router, 
     private toast: ToastService,
     private route: ActivatedRoute
@@ -273,5 +276,95 @@ export class Recipes implements OnInit {
 
   getRecipeId(recipe: any): string {
     return recipe.idMeal || recipe.id || '';
+  }
+
+  planMeal(recipe: any) {
+    if (!this.firebase.user()) {
+      this.toast.warning('Please login to plan meals');
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.currentMeal = recipe;
+    this.dialog.nativeElement.showModal();
+  }
+
+  closeDialog() {
+    this.dialog.nativeElement.close();
+  }
+
+  async complete() {
+    await this.saveToPlanned();
+    this.dialog.nativeElement.close();
+  }
+
+  async saveToPlanned() {
+    const userUid = this.firebase.user()?.uid;
+    if (!userUid) return;
+
+    const mealId = this.currentMeal.idMeal || this.currentMeal.id;
+    const plannedDoc = doc(this.firebase.db, 'users', userUid, 'plannedMeals', String(mealId));
+    
+    const name = this.currentMeal.strMeal || this.currentMeal.name;
+    const mealIdValue = mealId;
+    const country = this.currentMeal.strArea || this.currentMeal.country;
+    const cat = this.currentMeal.strCategory || this.currentMeal.category;
+    const img = this.currentMeal.strMealThumb || this.currentMeal.image;
+    const description = this.currentMeal.strInstructions || this.currentMeal.description;
+    
+    // Get ingredients
+    let ingred: string[] = [];
+    if (this.currentMeal.ingredients && Array.isArray(this.currentMeal.ingredients)) {
+      ingred = this.currentMeal.ingredients;
+    } else {
+      for (let i = 1; i <= 20; i++) {
+        const ing = this.currentMeal[`strIngredient${i}`];
+        if (ing && ing.trim() !== '') {
+          ingred.push(ing.trim());
+        }
+      }
+    }
+
+    const month = this.date?.getMonth();
+    const year = this.date?.getFullYear();
+    const day = this.date?.getDate();
+    
+    if (!this.date || !this.type()) {
+      this.toast.warning('Please select a date and meal type');
+      return;
+    }
+
+    const collRef = collection(this.firebase.db, "users", userUid, "plannedMeals");
+    const plannedMeals = await getDocs(collRef);
+    let isFound = false;
+    
+    plannedMeals.docs.forEach(doc => {
+      const data = doc.data();
+      if (data['year'] == year && data['month'] == month 
+        && data['dayInMonth'] == day && this.type() == data['mealType']) {
+        this.toast.warning("There is already a planned meal for this time slot");
+        isFound = true;
+      }
+    });
+    
+    if (isFound) return;
+
+    await setDoc(plannedDoc, {
+      savedAt: serverTimestamp(),
+      id: mealIdValue,
+      name: name,
+      country: country,
+      ingredients: ingred,
+      image: img,
+      category: cat,
+      description: description,
+      mealType: this.type(),
+      year: year,
+      month: month,
+      dayInMonth: day
+    });
+    
+    this.toast.success("Meal saved to planned meals");
+    this.type.set('');
+    this.date = null;
   }
 }

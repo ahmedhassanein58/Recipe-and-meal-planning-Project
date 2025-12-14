@@ -26,10 +26,29 @@ export class Post implements OnInit {
   ingredients:any = signal([])
   categories:any = signal([])
   @ViewChild('ingredInput')ingred!:ElementRef<HTMLInputElement>;
+  
   addIngred()
   {
-    this.ingredients.set([...this.ingredients(),this.ingred.nativeElement.value]);
-    this.ingred.nativeElement.value = '';
+    const value = this.ingred.nativeElement.value.trim();
+    if (value) {
+      this.ingredients.set([...this.ingredients(), value]);
+      this.ingred.nativeElement.value = '';
+    }
+  }
+  
+  removeIngred(index: number) {
+    const newIngredients = [...this.ingredients()];
+    newIngredients.splice(index, 1);
+    this.ingredients.set(newIngredients);
+  }
+  
+  resetForm() {
+    this.name.set('');
+    this.country.set('');
+    this.description.set('');
+    this.img.set('');
+    this.category.set('');
+    this.ingredients.set([]);
   }
   async getCategories()
   {
@@ -55,31 +74,80 @@ export class Post implements OnInit {
   }
   async createRecipe()
   {
-    // const mealId = collection(this.db,'users')
+    // Validation
+    if (!this.name().trim()) {
+      this.toast.warning('Please enter a meal name');
+      return;
+    }
+    
+    if (!this.country().trim()) {
+      this.toast.warning('Please enter a country/cuisine');
+      return;
+    }
+    
+    if (!this.category()) {
+      this.toast.warning('Please select a category');
+      return;
+    }
+    
+    if (!this.description().trim()) {
+      this.toast.warning('Please enter a description/instructions');
+      return;
+    }
+    
+    if (!this.img().trim()) {
+      this.toast.warning('Please enter an image URL');
+      return;
+    }
+    
+    // Validate URL format
+    try {
+      new URL(this.img());
+    } catch (e) {
+      this.toast.warning('Please enter a valid image URL');
+      return;
+    }
+    
+    if (this.ingredients().length === 0) {
+      this.toast.warning('Please add at least one ingredient');
+      return;
+    }
+    
+    if (!this.store.user()) {
+      this.toast.warning('You must be logged in to create a recipe');
+      return;
+    }
+    
     this.rand.set(Math.random()*10000);
     const recipe = doc(this.db,'users',this.store.user()?.uid,'posts',String(this.rand()));
     const userName = await this.getUserName();
-    // console.log(userName)
+    
+    if (!userName) {
+      this.toast.error('Unable to get user information');
+      return;
+    }
+    
     try 
     {
       await setDoc(recipe,
         {
           savedAt: serverTimestamp(),
-          name: this.name(), // meal name
-          country: this.country(),
-          description: this.description(),
-          image: this.img(),
+          name: this.name().trim(),
+          country: this.country().trim(),
+          description: this.description().trim(),
+          image: this.img().trim(),
           category: this.category(),
           ingredients: this.ingredients(),
-          publisher: userName // user name detected automaticaly for current user
+          publisher: userName
       })
-      this.toast.success(`Recipe posted successfully!`)
+      this.toast.success(`Recipe "${this.name()}" posted successfully!`)
+      this.resetForm();
     }
     
     catch(error: any)
     {
       console.log(error.message)
-      this.toast.error(`Can't store ${this.name()} recipe`)
+      this.toast.error(`Unable to save recipe: ${error.message}`)
     }
    
   }

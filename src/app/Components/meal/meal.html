@@ -99,8 +99,18 @@
         <div id="comments-list">
             <div *ngFor="let comment of comments()" class="comment">
                 <div class="comment-header">
-                    <strong>{{comment.username}}</strong>
-                    <span class="comment-date">{{comment.createdAt | date:'short'}}</span>
+                    <div class="comment-user-info">
+                        <strong>{{comment.username}}</strong>
+                        <span class="comment-date">{{comment.createdAt | date:'short'}}</span>
+                    </div>
+                    <button 
+                        *ngIf="canDeleteComment(comment)" 
+                        class="delete-comment-btn" 
+                        (click)="deleteComment(comment.id)"
+                        title="Delete comment"
+                    >
+                        🗑️
+                    </button>
                 </div>
                 <div class="comment-text">{{comment.text}}</div>
             </div>
